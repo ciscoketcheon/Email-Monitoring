@@ -79,74 +79,17 @@ This documentation provides a clear overview for users to prepare, deploy, and t
 
 ---
 
-## ⚙️ Step 3: Prepare this script
+### 🚀 Verification
 
-1. Modify the parameters near the top of `amp-notification.py`, such as:
-   - Mail server IP or hostname  
-   - Sender and recipient email addresses
+Example on normal scenario when the script runs, the monitoring mailbox receive the email, the script sleeps till the next check cycle and keep repeating. 
+![Normal](emailmon-1-monitoring.jpg)
 
----
+Error scenario, the email service is not available, script triggers and sent SNMP trap:-
+![SNMP Trap](emailmon-2-fail-trap.jpg)
 
-## 🚀 Step 4: Make the script executable
-
-Run manually to test:
-```bash
-sudo chmod +x /usr/local/bin/amp-notification.py
-```
+The bottom shows SNMP trap received at the SNMP server. 
 
 ---
-
-## 🧩 Step 5: (Optional) Run as a background service
-
-Create a systemd unit file:
-```bash
-sudo nano /etc/systemd/system/esa-amp-watch.service
-```
-
-Add:
-```ini
-[Unit]
-Description=Cisco ESA AMP log watcher
-After=network.target
-
-[Service]
-ExecStart=/usr/local/bin/amp-notification.py
-Restart=always
-User=root
-
-[Install]
-WantedBy=multi-user.target
-```
-
-Enable and start the service:
-```bash
-sudo systemctl daemon-reload
-sudo systemctl enable --now esa-amp-watch
-```
-
----
-
-## ✅ Result
-
-Whenever ESA logs show a line like:
-
-```
-AMP file analysis initiated
-```
-
-The script sends an email notification to the designated security contact.
-
-Example triggering event, file quarantined to AMP queue:-
-![amp2](amp2.jpg)
-
-Email action. 
-![amp3](amp3.jpg)
-
----
-
-### 📸 Screenshot
-![amp4](amp4.jpg)
-
 
 **Author:** [ciscoketcheon](https://github.com/ciscoketcheon)  
 **License:** BSD3 
