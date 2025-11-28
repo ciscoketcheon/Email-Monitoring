@@ -1,29 +1,26 @@
-# ESA AMP Notification
+# Email Deliverability Check Script
 
-This script monitors Cisco ESA logs and detects when a file is sent into the AMP quarantine queue with the action **"Pending File Analysis"** and **Quarantine**.  
-In a standard ESA configuration, no notification is generated for this event.  
-This script closes that gap by sending an email notification to the recipient. Script can be further customized to only send to designated addresses or security team. 
+This script monitors email SMTP server deliverability and send notification trap on email service unavailabile. The monitoring period can be defined and default to 5min. The notification method is by SNMP trap. The script allows the use of python email library or swaks CLI tool. 
+    
 
 ---
 
-## 🔹 Step 1: Configure ESA to send log files
+## 🔹 1. Prerequisites
 
-**On your ESA GUI:**
+Before running the email deliverability check script, ensure the following modules and tools are installed and configured:
 
-1. Go to **System Administration → Log Subscriptions**
-2. Create or edit **mail_logs** (and optionally **amp_logs**)
-3. Under **FTP/SCP/Syslog**, select **Syslog**
-4. Set the destination:
+- Python 3: The script requires Python 3 to run.
+- Swaks (optional): If USE_SWAKS is set to True, install Swaks for SMTP testing. On Debian/Ubuntu, use:
    ```
-   <ubuntu_server_ip>:514
+   sudo apt-get install swaks
    ```
-5. Format: **Text (not structured)**  
-   Protocol: **UDP** (simpler) or **TCP** (more reliable)
-6. Commit the changes
+- Net-SNMP tools: The script sends SNMP traps using the snmptrap command. Install Net-SNMP utilities:
+   ```
+   sudo apt-get install snmp
+   ```
+- Python standard libraries: The script uses built-in modules such as subprocess, time, and optionally smtplib and email.message.
+- Network access: Ensure the script can reach the SMTP server on port 25 and the SNMP trap destination IP on the network.
 
-ESA will start sending its logs to your Ubuntu server on port **514**.
-
-![amp1](amp1.jpg)
 
 ---
 
