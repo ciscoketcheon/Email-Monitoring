@@ -82,12 +82,12 @@ This documentation provides a clear overview for users to prepare, deploy, and t
 
 ### 🚀 Verification
 
-Example on normal scenario when the script runs, the monitoring mailbox receive the email, the script sleeps till the next check cycle and keep repeating:-
+Example on **normal scenario** when the script runs, the monitoring mailbox receive the email, the script sleeps till the next check cycle and keep repeating:-
 
 ![Normal](emailmon-1-monitoring.jpg)
 
 
-Error scenario, the email service is not available, script triggers and sent SNMP trap:-
+**Error scenario**, the email service is not available, script triggers and sent SNMP trap:-
 
 ![SNMP Trap](emailmon-2-fail-trap.jpg)
 
