@@ -54,6 +54,21 @@ The script monitors email deliverability and handles these scenarios:
     - SNMP_COMMUNITY: SNMP community string.
     - SNMP_TRAP_OID: OID for the SNMP trap.
 
+### Testing
+1. Normal Case: Run the script with a reachable SMTP server accepting connections on port 25. Confirm output similar to:
+   ```
+   [YYYY-MM-DD HH:MM:SS] Email sent successfully.
+   ```
+2. Server Down Case: Test with an unreachable SMTP server IP or stopped mail service. The script should log failures and retry.
+
+3. Brown-out Case: Test with the SMTP server IP reachable but port 25 closed or filtered. The script should detect failure and retry.
+
+4. Failure Limit Exceeded: After exceeding retry limits, verify the script sends an SNMP trap. Confirm success message or error logs if snmptrap is missing or misconfigured.
+
+5. SNMP Trap Command Validation: Ensure the send_snmp_trap() function uses the correct syntax with an empty agent address and valid variable bindings to avoid errors like "Bad variable type."
+
+This documentation provides a clear overview for users to prepare, deploy, and test the email deliverability check script effectively, capturing key error scenarios and operational details.
+
 
 ---
 
