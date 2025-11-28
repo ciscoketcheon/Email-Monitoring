@@ -29,11 +29,11 @@ Before running the email deliverability check script, ensure the following modul
 
 The script monitors email deliverability and handles these scenarios:
 
-- Normal: Email is sent successfully; the script logs a success message and resets failure count.
-- Error (Server Down): SMTP server is unreachable or down, causing connection failures; the script logs the failure and increments failure count.
-- Brown-out (Port or Service Unavailable): SMTP server IP is reachable, but port 25 is not accepting connections; treated as a failure.
-- Failure Limit Exceeded: When the number of consecutive failures exceeds RETRY_LIMIT, the script sends an SNMP trap alerting that email deliverability checks have failed, then resets failure count.
-- SNMP Trap Sending Errors: The script handles errors when sending SNMP traps, such as missing snmptrap binary or invalid command arguments, and logs the error without crashing.
+- **Normal**: Email is sent successfully; the script logs a success message and resets failure count.
+- **Error (Server Down)**: SMTP server is unreachable or down, causing connection failures; the script logs the failure and increments failure count.
+- **Brown-out (Port or Service Unavailable)**: SMTP server IP is reachable, but port 25 is not accepting connections; treated as a failure.
+- **Failure Limit Exceeded**: When the number of consecutive failures exceeds RETRY_LIMIT, the script sends an SNMP trap alerting that email deliverability checks have failed, then resets failure count.
+- **SNMP Trap Sending Errors**: The script handles errors when sending SNMP traps, such as missing snmptrap binary or invalid command arguments, and logs the error without crashing.
 
 
 ---
@@ -42,7 +42,7 @@ The script monitors email deliverability and handles these scenarios:
 
 ### Deployment
 
-1. Configure Variables: Modify the following variables in the script as needed:
+1. **Configure Variables**: Modify the following variables in the script as needed:
 
     - SMTP_SERVER: IP or hostname of the SMTP server.
     - SMTP_PORT: SMTP service port (default 25).
@@ -55,25 +55,25 @@ The script monitors email deliverability and handles these scenarios:
     - SNMP_COMMUNITY: SNMP community string.
     - SNMP_TRAP_OID: OID for the SNMP trap.
 
-2. Install Dependencies: Install required tools and Python modules as per the prerequisites.
+2. **Install Dependencies**: Install required tools and Python modules as per the prerequisites.
 
-3. Permissions: Ensure the script has execution permissions and the user running it has rights to execute snmptrap and network commands.
+3. **Permissions**: Ensure the script has execution permissions and the user running it has rights to execute snmptrap and network commands.
 
-4. Run the Script: Execute the script manually or schedule it with cron or another scheduler for continuous monitoring.
+4. **Run the Script**: Execute the script manually or schedule it with cron or another scheduler for continuous monitoring.
 
 
 ### Testing
-1. Normal Case: Run the script with a reachable SMTP server accepting connections on port 25. Confirm output similar to:
+1. **Normal Case**: Run the script with a reachable SMTP server accepting connections on port 25. Confirm output similar to:
    ```
    [YYYY-MM-DD HH:MM:SS] Email sent successfully.
    ```
-2. Server Down Case: Test with an unreachable SMTP server IP or stopped mail service. The script should log failures and retry.
+2. **Server Down Case**: Test with an unreachable SMTP server IP or stopped mail service. The script should log failures and retry.
 
-3. Brown-out Case: Test with the SMTP server IP reachable but port 25 closed or filtered. The script should detect failure and retry.
+3. **Brown-out Case**: Test with the SMTP server IP reachable but port 25 closed or filtered. The script should detect failure and retry.
 
-4. Failure Limit Exceeded: After exceeding retry limits, verify the script sends an SNMP trap. Confirm success message or error logs if snmptrap is missing or misconfigured.
+4. **Failure Limit Exceeded**: After exceeding retry limits, verify the script sends an SNMP trap. Confirm success message or error logs if snmptrap is missing or misconfigured.
 
-5. SNMP Trap Command Validation: Ensure the send_snmp_trap() function uses the correct syntax with an empty agent address and valid variable bindings to avoid errors like "Bad variable type."
+5. **SNMP Trap Command Validation**: Ensure the send_snmp_trap() function uses the correct syntax with an empty agent address and valid variable bindings to avoid errors like "Bad variable type."
 
 This documentation provides a clear overview for users to prepare, deploy, and test the email deliverability check script effectively, capturing key error scenarios and operational details.
 
