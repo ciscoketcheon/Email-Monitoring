@@ -54,6 +54,13 @@ The script monitors email deliverability and handles these scenarios:
     - SNMP_COMMUNITY: SNMP community string.
     - SNMP_TRAP_OID: OID for the SNMP trap.
 
+2. Install Dependencies: Install required tools and Python modules as per the prerequisites.
+
+3. Permissions: Ensure the script has execution permissions and the user running it has rights to execute snmptrap and network commands.
+
+4. Run the Script: Execute the script manually or schedule it with cron or another scheduler for continuous monitoring.
+
+
 ### Testing
 1. Normal Case: Run the script with a reachable SMTP server accepting connections on port 25. Confirm output similar to:
    ```
