@@ -10,16 +10,16 @@ The script was tested on ESA, and it should work on any compatible SMTP service.
 
 Before running the email deliverability check script, ensure the following modules and tools are installed and configured:
 
-- Python 3: The script requires Python 3 to run.
-- Swaks (optional): If USE_SWAKS is set to True, install Swaks for SMTP testing. On Debian/Ubuntu, use:
+- **Python 3**: The script requires Python 3 to run.
+- **Swaks (optional)**: If USE_SWAKS is set to True, install Swaks for SMTP testing. On Debian/Ubuntu, use:
    ```
    sudo apt-get install swaks
    ```
-- Net-SNMP tools: The script sends SNMP traps using the snmptrap command. Install Net-SNMP utilities:
+- **Net-SNMP tools**: The script sends SNMP traps using the snmptrap command. Install Net-SNMP utilities:
    ```
    sudo apt-get install snmp
    ```
-- Python standard libraries: The script uses built-in modules such as subprocess, time, and optionally smtplib and email.message.
+- **Python standard libraries**: The script uses built-in modules such as subprocess, time, and optionally smtplib and email.message.
 - Network access: Ensure the script can reach the SMTP server on port 25 and the SNMP trap destination IP on the network.
 
 
