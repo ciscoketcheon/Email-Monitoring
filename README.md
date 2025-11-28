@@ -1,7 +1,8 @@
 # Email Deliverability Check Script
 
-This script monitors email SMTP server deliverability and send notification trap on email service unavailabile. The monitoring period can be defined and default to 5min. The notification method is by SNMP trap. The script allows the use of python email library or swaks CLI tool. 
-    
+This script monitors ESA/CES or email SMTP server deliverability and send notification trap on email service unavailabile. The monitoring period can be defined and default to 5min. The notification method is by SNMP trap. The script allows the use of python email library or swaks CLI tool. 
+
+The script was tested on ESA, and it should work on any compatible SMTP service. 
 
 ---
 
