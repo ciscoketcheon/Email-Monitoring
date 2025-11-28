@@ -24,77 +24,36 @@ Before running the email deliverability check script, ensure the following modul
 
 ---
 
-## 🧰 Step 2: Prepare a Linux server as syslog receiver
+## ⚙️  2. Error Scenarios Captured
 
-### 1️⃣ Enable UDP/TCP reception
+The script monitors email deliverability and handles these scenarios:
 
-Edit the rsyslog configuration:
-```bash
-sudo nano /etc/rsyslog.conf
-```
+- Normal: Email is sent successfully; the script logs a success message and resets failure count.
+- Error (Server Down): SMTP server is unreachable or down, causing connection failures; the script logs the failure and increments failure count.
+- Brown-out (Port or Service Unavailable): SMTP server IP is reachable, but port 25 is not accepting connections; treated as a failure.
+- Failure Limit Exceeded: When the number of consecutive failures exceeds RETRY_LIMIT, the script sends an SNMP trap alerting that email deliverability checks have failed, then resets failure count.
+- SNMP Trap Sending Errors: The script handles errors when sending SNMP traps, such as missing snmptrap binary or invalid command arguments, and logs the error without crashing.
 
-Uncomment or add these lines:
-```bash
-# UDP syslog reception
-module(load="imudp")
-input(type="imudp" port="514")
-
-# TCP syslog reception (optional)
-module(load="imtcp")
-input(type="imtcp" port="514")
-```
 
 ---
 
-### 2️⃣ Create a log routing rule
+## 🧰 3. Deployment and Test Scenario
 
-Create a new file:
-```bash
-sudo nano /etc/rsyslog.d/60-cisco-esa.conf
-```
+### Deployment
 
-Add:
-```bash
-# Put all ESA logs in their own file
-if ($fromhost-ip == '10.10.10.10') then {
-    /var/log/esa/mail.log
-    stop
-}
-```
+1. Configure Variables: Modify the following variables in the script as needed:
 
-Replace `10.10.10.10` with your ESA’s management IP.
+    - SMTP_SERVER: IP or hostname of the SMTP server.
+    - SMTP_PORT: SMTP service port (default 25).
+    - SENDER_EMAIL and RECIPIENT_EMAIL: Email addresses for the test message.
+    - RETRY_LIMIT: Number of allowed consecutive failures before sending SNMP trap.
+    - CHECK_INTERVAL_SECONDS: Interval between checks (default 300 seconds).
+    - USE_SWAKS: Set to True to use Swaks, or False to use Python's smtplib.
+    - SNMP_TRAP_COMMAND: Path to the snmptrap executable.
+    - SNMP_TRAP_DEST: IP address of the SNMP trap receiver.
+    - SNMP_COMMUNITY: SNMP community string.
+    - SNMP_TRAP_OID: OID for the SNMP trap.
 
----
-
-### 3️⃣ Create folder and set permissions
-```bash
-sudo mkdir -p /var/log/esa
-sudo touch /var/log/esa/mail.log
-sudo chown syslog:adm /var/log/esa/mail.log
-```
-
----
-
-### 4️⃣ Restart rsyslog
-```bash
-sudo systemctl restart rsyslog
-```
-
----
-
-### 5️⃣ Verify it’s listening
-```bash
-sudo netstat -anu | grep 514   # for UDP
-sudo netstat -ant | grep 514   # for TCP
-```
-
----
-
-### 6️⃣ Verify logs arrive
-Send a test from ESA or look for entries like:
-```
-Oct 15 12:10:32 ESA01 AMP_SCAN: MID 12345 submitted file SHA256=abcd... awaiting verdict
-```
 
 ---
 
