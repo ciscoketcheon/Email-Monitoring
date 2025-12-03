@@ -1,6 +1,6 @@
 # Email Deliverability Check Script
 
-This script monitors ESA/CES or email SMTP server deliverability and send notification trap on email service unavailable. The monitoring period can be defined and default to 5min. The notification method is by SNMP trap. The script allows the use of python email library or swaks CLI tool. 
+This script monitors Email Security Appliance (ESA)/Cloud Email Security (CES) or email SMTP server deliverability and send notification trap on email service unavailable. The monitoring period can be defined and default to 5min. The notification method is by SNMP trap. The script allows the use of python email library or swaks CLI tool. 
 
 The script was tested on ESA, and it should work on any compatible SMTP service. 
 
@@ -94,6 +94,8 @@ Example on **normal scenario** when the script runs, the monitoring mailbox rece
 The bottom shows SNMP trap received at the SNMP server. 
 
 ---
+ESA - Cisco Email Security Appliance
+CES - Cloud Email Security
 
 **Author:** [ciscoketcheon](https://github.com/ciscoketcheon)  
 **License:** BSD3 
